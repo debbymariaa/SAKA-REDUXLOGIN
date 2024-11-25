@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register, selectUserStatus } from "@/redux/slices/userSlice";
 import Link from "next/link";
 import "./register.css";
+import { AppDispatch, RootState } from "@/redux/store";
 
 const Register = () => {
 
@@ -12,8 +13,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const users = useSelector((state: any) => state.user.users);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();  // Tambahkan tipe AppDispatch
+  const users = useSelector((state: RootState) => state.user.users);  // Tambahkan tipe RootState  
 
   const handleSubmit = (e: any) => {
     e.preventDefault();

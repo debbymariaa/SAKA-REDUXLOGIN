@@ -8,54 +8,51 @@ import { login, selectUserStatus } from "@/redux/slices/userSlice";
 import Link from "next/link";
 
 const Login = () => {
-
   const status = useSelector(selectUserStatus);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
       login({
         email: email,
         password: password,
-        status: 'loggedIn',
       })
     );
   };
 
   const users = useSelector((state: any) => state.user.users);
 
-
   useEffect(() => {
     if (status === "loggedIn") {
-      router.push("/logout");
+      router.push("/logout"); // Redirect ke halaman logout setelah login
     }
   }, [status, router]);
 
   return (
     <div className="login">
-      <form action="" className="login_form" onSubmit={(e) => handleSubmit(e)}>
+      <form className="login_form" onSubmit={handleSubmit}>
         <h1>Login Form</h1>
         <input
           type="email"
           value={email}
-          onChange={(e: any) => setEmail(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           placeholder="email"
-        ></input>
+        />
         <input
           type="password"
           value={password}
-          onChange={(e: any) => setPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           placeholder="password"
-        ></input>
+        />
         <button type="submit" className="submit_button">
-          submit
+          Submit
         </button>
       </form>
+
       {status === "loginFailed" && (
         <p style={{ color: "red" }}>Login failed. Incorrect email or password.</p>
       )}
@@ -71,7 +68,12 @@ const Login = () => {
           ))}
         </ul>
       ) : (
-        <p>No registered users yet.   <Link style={{ color: 'blue' }} href="/register">Register</Link></p>
+        <p>
+          No registered users yet.{" "}
+          <Link style={{ color: "blue" }} href="/register">
+            Register
+          </Link>
+        </p>
       )}
     </div>
   );

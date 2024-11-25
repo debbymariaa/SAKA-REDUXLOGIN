@@ -26,3 +26,9 @@ export const store = configureStore({
 export const persistor = persistStore(store);
 
 export default store;
+
+// Tipe untuk akses state secara global
+export type RootState = ReturnType<typeof store.getState>;
+// Tipe untuk dispatching actions
+export type AppDispatch = typeof store.dispatch;
+
